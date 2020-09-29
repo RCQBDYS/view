@@ -1,6 +1,8 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <el-card shadow="always" style="height: 400px;text-align: center;font-size: xx-large;line-height: 300px">
+      欢迎使用测试综合平台
+    </el-card>
   </div>
 </template>
 
@@ -11,7 +13,8 @@ export default {
   name: 'Dashboard',
   computed: {
     ...mapGetters([
-      'name'
+      'name',
+      'roles'
     ])
   }
 }

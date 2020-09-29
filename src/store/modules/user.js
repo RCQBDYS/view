@@ -1,12 +1,14 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import { mdCrypto } from '@/utils/crypto'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    roles: ''
   }
 }
 
@@ -22,8 +24,11 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
+  },
+  SET_UNIT: (state, unit) => {
+    state.unit = unit
   }
 }
 
@@ -33,18 +38,17 @@ const actions = {
     const { userAccount, passWord } = userInfo
     console.log('提交的用户账号' + userAccount)
     console.log('提交的用户密码' + passWord)
+    const newPassword = mdCrypto(passWord)
+    console.log('加密后的密码' + newPassword)
     return new Promise((resolve, reject) => {
-      login({ userAccount: userAccount.trim(), passWord: passWord }).then(response => {
+      login({ userAccount: userAccount.trim(), passWord: newPassword }).then(response => {
         // 注意这里获取map中的值，使用的方法const { token } = reponse 键值名对应括号里的名称
         console.log(response)
         const { data } = response
         console.log(data)
         console.log(data.token)
-        // const { token } = data
         commit('SET_TOKEN', data.token)
         setToken(data.token)
-        // commit('SET_TOKEN', 'admin-token')
-        // setToken('admin-token')
         resolve()
       }).catch(error => {
         reject(error)
@@ -62,13 +66,12 @@ const actions = {
 
         if (!data) {
           // return reject('Verification failed, please Login again.')
-          return reject('Verification failed, please Login again.')
+          return reject('验证失败，请重新登录')
         }
-
-        const { name, avatar } = data
-
+        const { name, roles, unit } = data
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_ROLES', roles)
+        commit('SET_UNIT', unit)
         resolve(data)
       }).catch(error => {
         reject(error)

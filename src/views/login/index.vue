@@ -8,7 +8,7 @@
       <el-form-item prop="userAccount">
         <span class="svg-container">
           <!--这里是图标的引用-->
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="email" />
         </span>
         <el-input
           ref="userAccount"
@@ -55,7 +55,7 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import { validUsername } from '@/utils/validate'
+import { validUsername, validNumber, validAlphabets } from '@/utils/validate'
 
 export default {
   name: 'Login',
@@ -76,10 +76,17 @@ export default {
     }
     // 对于输入密码的验证
     const validatePassword = (rule, value, callback) => {
+      const flag = validNumber(value)
+      const flag2 = validAlphabets(value)
+      console.log('密码验证' + flag + flag2)
       if (value.length === 0) {
-        callback(new Error('用户密码不能为空'))
+        callback(new Error('密码不能为空'))
       } else if (value.length < 6) {
-        callback(new Error('用户密码不少于六位'))
+        callback(new Error('密码不少于六位'))
+      } else if (validNumber(value)) {
+        callback(new Error('密码必须由字母和数字组成'))
+      } else if (validAlphabets(value)) {
+        callback(new Error('密码必须由字母和数字组成'))
       } else {
         callback()
       }

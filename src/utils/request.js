@@ -51,9 +51,18 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.错误提示duration是错误提示的时间信息
     if (res.code !== 20000) {
+      // 50001: 登录账户密码错误
       if (res.code === 50001) {
         Message({
           message: '账户密码错误',
+          type: 'error',
+          duration: 2 * 1000
+        })
+      }
+      // 50002: token时间失效
+      if (res.code === 50002) {
+        Message({
+          message: '用户长时间为操作，请重新登录！',
           type: 'error',
           duration: 2 * 1000
         })

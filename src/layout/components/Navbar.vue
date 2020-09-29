@@ -6,23 +6,12 @@
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
+        <div class="block"><el-avatar :size="50">{{ name }}</el-avatar></div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided @click.native="logout">
+          <el-dropdown-item>姓名:{{ name }}</el-dropdown-item>
+          <el-dropdown-item>单位:{{ unit }}</el-dropdown-item>
+          <el-dropdown-item>角色:{{ roles }}</el-dropdown-item>
+          <el-dropdown-item divided @click.native="logoutOpen">
             <span style="display:block;">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -35,6 +24,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import { logout } from '../../api/user'
 
 export default {
   components: {
@@ -44,12 +34,28 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'name',
+      'roles',
+      'unit'
     ])
   },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
+    },
+    logoutOpen() {
+      this.$confirm('确认注销账户?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$options.methods.logout.bind(this)()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        })
+      })
     },
     async logout() {
       await this.$store.dispatch('user/logout')
