@@ -36,17 +36,17 @@ const actions = {
   // user login 用户登录
   login({ commit }, userInfo) {
     const { userAccount, passWord } = userInfo
-    console.log('提交的用户账号' + userAccount)
-    console.log('提交的用户密码' + passWord)
+    // console.log('提交的用户账号' + userAccount)
+    // console.log('提交的用户密码' + passWord)
     const newPassword = mdCrypto(passWord)
-    console.log('加密后的密码' + newPassword)
+    // console.log('加密后的密码' + newPassword)
     return new Promise((resolve, reject) => {
       login({ userAccount: userAccount.trim(), passWord: newPassword }).then(response => {
         // 注意这里获取map中的值，使用的方法const { token } = reponse 键值名对应括号里的名称
-        console.log(response)
+        // console.log(response)
         const { data } = response
-        console.log(data)
-        console.log(data.token)
+        // console.log(data)
+        // console.log(data.token)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -60,9 +60,9 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        console.log('获取用户信息getInfo')
+        // console.log('获取用户信息getInfo')
         const { data } = response
-        console.log(data)
+        // console.log(data)
 
         if (!data) {
           // return reject('Verification failed, please Login again.')

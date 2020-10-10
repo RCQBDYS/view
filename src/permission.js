@@ -5,10 +5,11 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import { constantRoutes } from '@/router'
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({ showSpinner: false })// NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist白名单
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -27,15 +28,30 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
+      // determine whether the user has obtained his permission roles through getInfo
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      if (hasRoles) {
         next()
       } else {
         try {
           // get user info
-          await store.dispatch('user/getInfo')
+          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
+          const { roles } = await store.dispatch('user/getInfo')
+          // console.log(typeof roles)
+          // 这里主要是将用户的权限、角色转换成数组的形式
+          const str = []
+          str.push(roles)
+          // console.log(str)
+          // generate accessible routes map based on roles
+          const accessRoutes = await store.dispatch('permission/generateRoutes', str)
+          // dynamically add accessible routes
+          constantRoutes.concat(accessRoutes)
+          router.options.routes = constantRoutes.concat(accessRoutes)
+          // router.addRoutes(accessRoutes)
 
-          next()
+          // hack method to ensure that addRoutes is complete
+          // set the replace: true, so the navigation will not leave a history record
+          next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')

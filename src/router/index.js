@@ -28,7 +28,7 @@ import Layout from '@/layout'
 /**
  * constantRoutes
  * a base page that does not have permission requirements
- * all roles can be accessed
+ * all roles can be accessed 公共路由，不需要用户权限
  */
 export const constantRoutes = [
   {
@@ -36,13 +36,6 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
   {
     path: '/',
     component: Layout,
@@ -51,7 +44,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard', affix: true }
     }]
   },
 
@@ -65,7 +58,7 @@ export const constantRoutes = [
       {
         path: 'table',
         name: 'Table',
-        component: () => import('@/views/table/index'),
+        // component: () => import('@/views/table/index'),
         meta: { title: '表格', icon: 'table' }
       },
       {
@@ -147,13 +140,46 @@ export const constantRoutes = [
         meta: { title: 'menu2' }
       }
     ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-
+  }
 ]
 
+// 异步挂载的路由
+// 动态需要根据权限加载的路由表
+export const asyncRoutes = [
+  /* {
+    component: Layout,
+    alwaysShow: true, // will always show the root menu
+    name: 'authority',
+    children: [
+      {
+        path: 'page',
+        // component: () => import('@/views/permission/page'),
+        name: 'PagePermission',
+        meta: {
+          title: '权限管理',
+          icon: 'lock',
+          roles: ['superAdmin'] // or you can only set roles in sub nav
+        }
+      }
+    ]
+  },*/
+  {
+    path: '/authority',
+    component: Layout,
+    children: [
+      {
+        path: 'complex-table',
+        name: 'Authority',
+        // component: () => import('@/views/authority/complex-table'),
+        meta: { roles: ['superAdmin'], title: '权限管理', icon: 'lock' }
+      }
+    ]
+  },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+// 实例化vue时只挂载constantRoutes
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),

@@ -26,7 +26,7 @@ export function validUsername(str) {
     }
   })
     .then(function(response) {
-      console.log('用户账号存在性的检验 = ' + response.data.data)
+      // console.log('用户账号存在性的检验 = ' + response.data.data)
       return response.data.data !== 0
     })
 }

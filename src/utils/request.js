@@ -14,9 +14,9 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    console.log('发送请求前，获取token值')
+    // console.log('发送请求前，获取token值')
     if (store.getters.token) {
-      console.log('从cookies中获取token值成功')
+      // console.log('从cookies中获取token值成功')
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
@@ -45,9 +45,9 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    console.log(response)
-    console.log('登录返回数值')
-    console.log('getInfo获取的数值' + res.code)
+    // console.log(response)
+    // console.log('登录返回数值')
+    // console.log('getInfo获取的数值' + res.code)
 
     // if the custom code is not 20000, it is judged as an error.错误提示duration是错误提示的时间信息
     if (res.code !== 20000) {
