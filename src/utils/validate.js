@@ -27,7 +27,9 @@ export function validUsername(str) {
   })
     .then(function(response) {
       // console.log('用户账号存在性的检验 = ' + response.data.data)
-      return response.data.data !== 0
+      const res = response.data.data
+      console.log(res.exist)
+      return res.exist !== 0
     })
 }
 /**
@@ -45,6 +47,15 @@ export function validNumber(str) {
  */
 export function validAlphabets(str) {
   const reg = /^[A-Za-z]+$/
+  return reg.test(str)
+}
+
+/**
+ * @param {string} str
+ * @returns {Boolean}
+ */
+export function validChinese(str) {
+  const reg = new RegExp('[\\u4E00-\\u9FFF]+', 'g')
   return reg.test(str)
 }
 

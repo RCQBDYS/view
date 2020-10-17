@@ -54,7 +54,7 @@ service.interceptors.response.use(
       // 50001: 登录账户密码错误
       if (res.code === 50001) {
         Message({
-          message: '账户密码错误',
+          message: res.message,
           type: 'error',
           duration: 2 * 1000
         })
@@ -62,12 +62,43 @@ service.interceptors.response.use(
       // 50002: token时间失效
       if (res.code === 50002) {
         Message({
-          message: '用户长时间为操作，请重新登录！',
+          message: res.message,
           type: 'error',
           duration: 2 * 1000
         })
       }
-
+      // 50003: 信息查询失败
+      if (res.code === 50003) {
+        Message({
+          message: res.message,
+          type: 'error',
+          duration: 2 * 1000
+        })
+      }
+      // 50004: 用户信息添加失败
+      if (res.code === 50004) {
+        Message({
+          message: res.message,
+          type: 'error',
+          duration: 2 * 1000
+        })
+      }
+      // 50005: 用户修改失败
+      if (res.code === 50005) {
+        Message({
+          message: res.message,
+          type: 'error',
+          duration: 2 * 1000
+        })
+      }
+      // 50006: 用户删除失败
+      if (res.code === 50006) {
+        Message({
+          message: res.message,
+          type: 'error',
+          duration: 2 * 1000
+        })
+      }
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login

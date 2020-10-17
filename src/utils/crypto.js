@@ -15,9 +15,3 @@ export const shaCrypto = (pwd) => {
   return jsSha.sha256(pwd)
 }
 
-/*
-export const baseCrypto = (pwd) => {
-  return base64.Base64.encode(pwd)
-}
-*/
-

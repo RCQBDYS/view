@@ -10,7 +10,7 @@
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <el-dropdown-item>姓名:{{ name }}</el-dropdown-item>
           <el-dropdown-item>单位:{{ unit }}</el-dropdown-item>
-          <el-dropdown-item>角色:{{ roles }}</el-dropdown-item>
+          <el-dropdown-item>角色:{{ roles | userTypeFilter }}</el-dropdown-item>
           <el-dropdown-item divided @click.native="logoutOpen">
             <span style="display:block;">退出</span>
           </el-dropdown-item>
@@ -29,6 +29,17 @@ export default {
   components: {
     Breadcrumb,
     Hamburger
+  },
+  filters: {
+    userTypeFilter(userType) {
+      if (userType === 1) {
+        return '测试人员'
+      } else if (userType === 2) {
+        return '开发人员'
+      } else {
+        return 'superAdmin'
+      }
+    }
   },
   computed: {
     ...mapGetters([

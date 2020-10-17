@@ -76,10 +76,6 @@ export default {
     }
     // 对于输入密码的验证
     const validatePassword = (rule, value, callback) => {
-      // const flag = validNumber(value)
-      // const flag2 = validAlphabets(value)
-      // console.log('密码验证' + flag)
-      // console.log('密码验证' + flag2)
       if (value.length === 0) {
         callback(new Error('密码不能为空'))
       } else if (value.length < 6) {

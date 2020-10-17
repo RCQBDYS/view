@@ -36,18 +36,16 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles } = await store.dispatch('user/getInfo')
+          const { user } = await store.dispatch('user/getInfo')
           // console.log(typeof roles)
           // 这里主要是将用户的权限、角色转换成数组的形式
           const str = []
-          str.push(roles)
-          // console.log(str)
+          str.push(user.userType.toString())
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', str)
           // dynamically add accessible routes
-          constantRoutes.concat(accessRoutes)
           router.options.routes = constantRoutes.concat(accessRoutes)
-          // router.addRoutes(accessRoutes)
+          router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
@@ -63,7 +61,6 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()

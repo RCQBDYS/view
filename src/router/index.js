@@ -44,7 +44,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard', affix: true }
+      meta: { title: '首页', icon: 'house', affix: true }
     }]
   },
 
@@ -53,91 +53,12 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/analysis/table',
     name: 'Analysis',
-    meta: { title: '日志解析', icon: 'documentation' },
     children: [
       {
         path: 'table',
         name: 'Table',
         // component: () => import('@/views/table/index'),
-        meta: { title: '表格', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '多级目录', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: '表单', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: '嵌套目录',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
+        meta: { title: '日志解析', icon: 'documentation' }
       }
     ]
   }
@@ -146,32 +67,15 @@ export const constantRoutes = [
 // 异步挂载的路由
 // 动态需要根据权限加载的路由表
 export const asyncRoutes = [
-  /* {
-    component: Layout,
-    alwaysShow: true, // will always show the root menu
-    name: 'authority',
-    children: [
-      {
-        path: 'page',
-        // component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '权限管理',
-          icon: 'lock',
-          roles: ['superAdmin'] // or you can only set roles in sub nav
-        }
-      }
-    ]
-  },*/
   {
-    path: '/authority',
+    path: '/permission',
     component: Layout,
     children: [
       {
-        path: 'complex-table',
+        path: 'permission',
         name: 'Authority',
-        // component: () => import('@/views/authority/complex-table'),
-        meta: { roles: ['superAdmin'], title: '权限管理', icon: 'lock' }
+        component: () => import('@/views/permission/index'),
+        meta: { roles: ['0'], title: '权限管理', icon: 'lock' }
       }
     ]
   },

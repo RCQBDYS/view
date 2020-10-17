@@ -61,17 +61,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         // console.log('获取用户信息getInfo')
-        const { data } = response
-        // console.log(data)
-
+        const data = response.data
+        // console.log('getInfor data = ' + data.user.userName)
         if (!data) {
           // return reject('Verification failed, please Login again.')
           return reject('验证失败，请重新登录')
         }
-        const { name, roles, unit } = data
-        commit('SET_NAME', name)
-        commit('SET_ROLES', roles)
-        commit('SET_UNIT', unit)
+        const { userName, userType, userUnit } = data.user
+        commit('SET_NAME', userName)
+        commit('SET_ROLES', userType.toString())
+        commit('SET_UNIT', userUnit)
         resolve(data)
       }).catch(error => {
         reject(error)
